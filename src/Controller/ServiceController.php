@@ -26,24 +26,22 @@ class ServiceController
             $food,
             ['id', 'name', 'description']
         );
+
         return new JsonResponse($res, Response::HTTP_OK);
    }
 
     /**
-     * @Route("get/{id}", name="get_one_pet", methods={"GET"})
+     * @Route("get/{id}", name="get_by_id", methods={"GET"})
      */
-    public function get($id): JsonResponse
+    public function getById(int $id): JsonResponse
     {
-        $pet = $this->petRepository->findOneBy(['id' => $id]);
+        $apiManager = new ApiManager();
+        $res = $apiManager->getById(
+            $id,
+            ['id', 'name', 'description', 'tagline', 'first_brewed', 'image_url']
+        );
 
-        $data = [
-            'id' => $pet->getId(),
-            'name' => $pet->getName(),
-            'type' => $pet->getType(),
-            'photoUrls' => $pet->getPhotoUrls(),
-        ];
-
-        return new JsonResponse($data, Response::HTTP_OK);
+        return new JsonResponse($res, Response::HTTP_OK);
     }
 
 }
